@@ -1,0 +1,4 @@
+module.exports = {
+    cookieSecret: "b to the dd"
+  , tmpPath: "/tmp"
+}

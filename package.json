@@ -1,0 +1,19 @@
+{
+    "name": "bdd.js"
+  , "version": "0.0.1"
+  , "description": "just your basic BDD framework for node.js"
+  , "author": "Didit <development@didit.com>"
+  , "dependencies": {
+      "express": "2.4.7"
+    , "jade": ">= 0.0.1"
+    , "eyes": "0.1.6"
+    , "soda": "0.2.4"
+    , "underscore": "1.2.2"
+    }
+  , "devDependencies": {
+      "jsdom": "0.2.9"
+    , "should": "0.3.2"
+    , "sinon": "1.2.0"
+    }
+  , "engines": { "node": "0.4.x" }
+}
