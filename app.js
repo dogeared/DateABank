@@ -4,6 +4,9 @@
  */
 
 var express = require('express');
+var mongodb = require('mongodb');
+var fs = require('fs');
+var path = require('path');
 
 var app = module.exports = express.createServer();
 
@@ -15,19 +18,31 @@ global.inspect = require('eyes').inspector({ maxLength: 1000 });
 var envPath = './config/environments/' + app.settings.env;
 global.settings = require(envPath + '/settings');
 
+var mongoConfig = settings.databases.mongo
+var authPart = '';
+var sessionStoreSettings = {
+   db: settings.databases.mongo.database,
+   host: settings.databases.mongo.host,
+   port: settings.databases.mongo.port
+};
+if (process.env['NODE_ENV'] === 'production') {
+  authPart =  mongoConfig.user+':'+mongoConfig.password+'@';
+  sessionStoreSettings.username = mongoConfig.user;
+  sessionStoreSettings.password = mongoConfig.password;
+}
+var connectStr = 'mongodb://'+authPart+mongoConfig.host+':'+mongoConfig.port+
+  '/'+mongoConfig.database;
+
 /**
  * App configuration.
  */
 
 app.configure(function(){
-  app.set('views', __dirname + '/lib/views');
-  app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: settings.cookieSecret }));
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -49,8 +64,18 @@ process.on('uncaughtException', function(err) {
 /**
  * Require all controllers.
  */
+ mongodb.connect(connectStr, function(err, db) {
+   if (err) console.error(err);
+   global.mongodb = db;
+   fs.readdirSync(__dirname + '/lib/controllers').map(function(file) {
+     var controller = path.basename(file, '.js');
+     if (path.extname(file) !== '') {
+       require(__dirname + '/lib/controllers/' + controller)(app);
+     }
+   });
+   app.listen(3000);
+   console.log("Express server listening on port %d in %s mode", 
+    app.address().port, app.settings.env);
+})
+// require(__dirname + '/lib/controllers/site_controller')(app);
 
-require(__dirname + '/lib/controllers/site_controller')(app);
-
-app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

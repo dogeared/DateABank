@@ -17,7 +17,6 @@ var sinon = require('sinon');
 // var coreExt = require('../lib/helpers/core_ext');
 var express = require('express');
 var controllerTestHelper = require('./controller_test_helper');
-var viewTestHelper = require('./view_test_helper');
 
 /**
  * BDD Hooks.
@@ -50,7 +49,6 @@ var bdd = module.exports = {
     return function(statement, callback) {
       self.exports[self.subject + ' ' + statement] = function(done) {
         self.sandbox.controllers = controllerTestHelper;
-        self.sandbox.views = viewTestHelper;
 
         if (self.beforeEach) self.beforeEach(self.sandbox);
 
@@ -87,6 +85,26 @@ var bdd = module.exports = {
     return app;
   }
 };
+
+var noop = function(){};
+
+global.db = global.mongodb = {
+  collection: function() {
+    return {
+      count: noop
+    };
+  },
+  createCollection: function() {
+    return {
+      count: noop
+    };
+  },
+  bind: noop
+};
+
+var mongo = require('mongodb');
+var mdb = new mongo.Db('test', new mongo.Server("127.0.0.1", 27017, {}));
+global._collection = new mongo.Collection(mdb, 'test');
 
 /**
  * Terminate process on uncaught exception

@@ -5,7 +5,6 @@
 var http = require('http');
 var req = http.IncomingMessage.prototype;
 var res = http.ServerResponse.prototype;
-var views = require('./view_test_helper');
 
 /**
  * controller_test_helper
@@ -49,14 +48,6 @@ helper.setLocal = function(name, value) {
 };
 
 helper.assert = {
-  get: function(app, route, callback) {
-    assert.response(app,
-      { url: route, method: 'GET' },
-      { status: 200, body: /^(?!\w*Error:).+/ },
-    function(res) {
-      views.parseDom(res.body, callback);
-    });
-  },
   getJson: function(app, route, callback) {
     assert.response(app,
       { url: route, method: 'GET' },

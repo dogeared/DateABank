@@ -1,14 +1,13 @@
 {
-    "name": "bdd.js"
+    "name": "Date A Bank"
   , "version": "0.0.1"
-  , "description": "just your basic BDD framework for node.js"
-  , "author": "Didit <development@didit.com>"
+  , "description": "Backend for storing transactions"
+  , "author": "micah@afitnerd.com"
   , "dependencies": {
-      "express": "2.4.7"
-    , "jade": ">= 0.0.1"
-    , "eyes": "0.1.6"
-    , "soda": "0.2.4"
-    , "underscore": "1.2.2"
+         "express": "2.4.7"
+       , "eyes": "0.1.6"
+       , "underscore": "1.2.2"
+       , "mongodb": "0.9.8-7"
     }
   , "devDependencies": {
       "jsdom": "0.2.9"
