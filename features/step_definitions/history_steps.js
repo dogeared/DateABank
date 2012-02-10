@@ -31,7 +31,7 @@ When(/^I get the history$/, function(step) {
   }, function(err, res, body) {
     if (err) throw err;
     assert.equal(res.statusCode, 200);
-    self.resBody = JSON.parse(res.body);
+    self.resBody = JSON.parse(body);
     step.done();
   })
 });
@@ -52,6 +52,7 @@ When(/^I process transactions with the following dates$/, function(step, table) 
   var self = this;
 
   var ids = [];
+  
   _.each(table.hashes(), function(row) {
     var transaction = _.find(self.resBody.result, function(transaction) {
       return (transaction.date === row.date)

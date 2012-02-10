@@ -28,6 +28,8 @@ describe('when submitting a transaction', function(it) {
       
   beforeEach(function(test) {
     test.stub(mongodb, 'collection').yields(null, _collection);
+    test.controllers.stubMiddlewareFor(route, app);
+    test.controllers.setCurrentUser({ _id: 'foo' });
   });
   
   it('should be successful', function(test) {

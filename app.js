@@ -4,9 +4,12 @@
  */
 
 var express = require('express');
+var connectAuth = require('connect-auth');
 var mongodb = require('mongodb');
+var MongoStore = require('connect-mongo');
 var fs = require('fs');
 var path = require('path');
+var FormStrategy = require('./lib/auth_strategies/FormStrategy');
 
 var app = module.exports = express.createServer();
 
@@ -41,7 +44,11 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: settings.cookieSecret }));
+  app.use(express.session({
+    secret: settings.cookieSecret,
+    store: new MongoStore(sessionStoreSettings)
+  }));
+  app.use(connectAuth(FormStrategy()));
   app.use(app.router);
 });
 

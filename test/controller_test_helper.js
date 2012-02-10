@@ -25,22 +25,18 @@ helper.finish = function() {
   restoreRoute();
 };
 
+helper.setCurrentUser = function(user) {
+  req.currentUser = user;
+};
+
 var getRoute = helper.getRoute = function(route, app) {
   return app.get(route)[0] || app.post(route)[0];
 };
 
 helper.stubMiddlewareFor = function(route, app) {
   currentRoute = getRoute(route, app);
-  currentMiddleware = currentRoute.middleware;
+  currentMiddleware = currentRoute.middleware;  
   currentRoute.middleware = [];
-};
-
-helper.setDefaultLocals = function() {
-  var tools = []
-  res.local('currentUser', { permissions: { tools: tools } });
-  res.local('currentClients', []);
-  res.local('currentClient', {});
-  res.local('tools', tools);
 };
 
 helper.setLocal = function(name, value) {

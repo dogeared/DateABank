@@ -73,15 +73,6 @@ var bdd = module.exports = {
       express.session({ secret: 'tester' })
     );
 
-    app.set('views', __dirname + '/../lib/views');
-    app.set('view engine', 'jade');
-
-    app.dynamicHelpers({
-      // messages: require(__dirname + '/../lib/helpers/flash_helper')
-    });
-
-    controllerTestHelper.setDefaultLocals();
-
     return app;
   }
 };
