@@ -17,12 +17,12 @@ Feature: History
     And the transaction data has been submitted
 
   Scenario: Get history
-    When I authenticate
+    When I authenticate with "1234567890"
     And I get the history
     Then I should get back the history with ids
   
   Scenario: Process transactions
-    When I authenticate
+    When I authenticate with "1234567890"
     And I get the history
     And I process transactions with the following dates
       | date     |

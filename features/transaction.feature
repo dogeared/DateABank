@@ -13,7 +13,14 @@ Feature: Transaction
       | 2/1/2012 | 12.45  | some cool purchase | some cool categroy |
 
   Scenario: Success: Submit credit transaction
-    When I authenticate
+    When I authenticate with "1234567890"
     And I submit the transaction
     Then I should get a successful response
+    
+  Scenario: Failure: auth problem
+    When I authenticate with "bad auth token"
+    Then I should get a failure response
+  
+  
+  
 

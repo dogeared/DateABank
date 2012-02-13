@@ -40,7 +40,8 @@ var connectStr = 'mongodb://'+authPart+mongoConfig.host+':'+mongoConfig.port+
  * App configuration.
  */
 
-app.configure(function(){
+app.configure(function() {
+  app.use(express.logger());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());

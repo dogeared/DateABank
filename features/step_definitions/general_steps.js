@@ -35,7 +35,6 @@ Given(/^a user exists with auth token "([^"]*?)"$/, function(step, token) {
   var self = this;
   var mongo = helpers.connectMongo();
 
-  this.token = token;
   mongo.open(function(err, db) {
     global.mongodb = db;
     User.insert({token: token}, function(err, result) {
@@ -45,18 +44,23 @@ Given(/^a user exists with auth token "([^"]*?)"$/, function(step, token) {
   });
 });
 
-When(/^I authenticate$/, function(step) {
+When(/^I authenticate with "([^"]*?)"$/, function(step, token) {
   var self = this;
   var endpoint = "http://localhost:3000/api/v1/authenticate";
   
   request({
     method: 'POST',
     uri: endpoint,
-    json: {token: self.token}
+    json: {token: token}
   }, function(err, res, body) {
     if (err) throw err;
     assert.equal(res.statusCode, 200);
     self.resBody = res.body;
     step.done();
   })
+});
+
+Then(/^I should get a failure response$/, function(step) {
+  assert.equal(this.resBody.status, 'FAILURE');
+  step.done();
 });
