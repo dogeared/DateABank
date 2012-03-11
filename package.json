@@ -4,17 +4,17 @@
   , "description": "Backend for storing transactions"
   , "author": "micah@afitnerd.com"
   , "dependencies": {
-         "express": "2.3.x"
-       , "eyes": "0.1.x"
-       , "underscore": "1.2.x"
-       , "connect-auth": "0.4.x"
-       , "connect-mongo": "0.1.x"
-       , "mongodb": "0.9.x"
+         "express": "2.3.10"
+       , "eyes": "0.1.6"
+       , "underscore": "1.2.2"
+       , "connect-auth": "0.4.1"
+       , "connect-mongo": "0.1.7"
+       , "mongodb": "0.9.8-7"
     }
   , "devDependencies": {
       "jsdom": "0.2.x"
-    , "should": "0.3.x"
-    , "sinon": "1.2.x"
+    , "should": "0.3.2"
+    , "sinon": "1.2.0"
     , "request": "2.9.100"
     }
   , "engines": { "node": "0.4.7" }
