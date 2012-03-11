@@ -9,7 +9,8 @@ Given(/^the transaction data has been submitted$/, function(step) {
   
   mongo.open(function(err, db) {
     global.mongodb = db;
-    _.each(self.transactions, function(transaction, index) {
+    // reverse proves that we should get ascending order by date later
+    _.each(self.transactions.reverse(), function(transaction, index) {
       Transaction.insert(transaction, function(err, transaction) {
         if (err) throw err;
         if (index === self.transactions.length-1) {
@@ -39,10 +40,10 @@ When(/^I get the history$/, function(step) {
 Then(/^I should get back the history with ids$/, function(step) {
   var self = this;
   _.each(this.resBody.result, function(transaction, index) {
-    assert.equal(transaction.date, self.transactions[index].date);
-    assert.equal(transaction.amount, self.transactions[index].amount);
-    assert.equal(transaction.description, self.transactions[index].description);
-    assert.equal(transaction.category, self.transactions[index].category);
+    assert.equal(transaction.date, self.expected[index].date);
+    assert.equal(transaction.amount, self.expected[index].amount);
+    assert.equal(transaction.description, self.expected[index].description);
+    assert.equal(transaction.category, self.expected[index].category);
     assert.notEqual(transaction._id, null);
   })
   step.done();
@@ -52,7 +53,7 @@ When(/^I process transactions with the following dates$/, function(step, table) 
   var self = this;
 
   var ids = [];
-  
+
   _.each(table.hashes(), function(row) {
     var transaction = _.find(self.resBody.result, function(transaction) {
       return (transaction.date === row.date)
@@ -60,7 +61,7 @@ When(/^I process transactions with the following dates$/, function(step, table) 
     
     ids.push(transaction._id);
   })
-  
+
   var endpoint = "http://localhost:3000/api/v1/process";
   
   request({

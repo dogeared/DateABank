@@ -4,6 +4,7 @@ var helpers = require('../support/helpers');
 Given(/^I have the following transaction data$/, function(step, table) {
   this.transactions = table.hashes();
   this.transaction = this.transactions[0];
+  this.expected = table.hashes();
   step.done();
 });
 
