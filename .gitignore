@@ -2,3 +2,4 @@ node_modules
 *.tar.gz
 node-*
 logs
+config/environments/**/settings.js
