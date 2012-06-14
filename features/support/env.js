@@ -1,3 +1,3 @@
-global.settings = require('../../config/environments/test/settings');
+global.settings = require('../../config/settings');
 
 process.env.NODE_ENV='test';

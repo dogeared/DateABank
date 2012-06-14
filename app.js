@@ -18,23 +18,20 @@ var app = module.exports = express.createServer();
  */
 
 global.inspect = require('eyes').inspector({ maxLength: 1000 });
-var envPath = './config/environments/' + app.settings.env;
-global.settings = require(envPath + '/settings');
 
-var mongoConfig = settings.databases.mongo
+global.settings = require('./config/settings');
+
+var mongoConfig = settings.databases.mongo;
 var authPart = '';
 var sessionStoreSettings = {
-   db: settings.databases.mongo.database,
-   host: settings.databases.mongo.host,
-   port: settings.databases.mongo.port
+   db: mongoConfig.database,
+   host: mongoConfig.host,
+   port: mongoConfig.port
 };
 if (process.env['NODE_ENV'] === 'production') {
   authPart =  process.env['MONGO_USER']+':'+process.env['MONGO_PWD']+'@';
   sessionStoreSettings.username = process.env['MONGO_USER'];
   sessionStoreSettings.password = process.env['MONGO_PWD'];
-  sessionStoreSettings.db = mongoConfig.database = process.env['MONGO_DB'];
-  sessionStoreSettings.host = mongoConfig.host = process.env['MONGO_HOST'];
-  sessionStoreSettings.port = mongoConfig.port = process.env['MONGO_PORT'];
 }
 var connectStr = 'mongodb://'+authPart+mongoConfig.host+':'+mongoConfig.port+
   '/'+mongoConfig.database;
