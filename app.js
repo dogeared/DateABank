@@ -32,6 +32,9 @@ if (process.env['NODE_ENV'] === 'production') {
   authPart =  process.env['MONGO_USER']+':'+process.env['MONGO_PWD']+'@';
   sessionStoreSettings.username = process.env['MONGO_USER'];
   sessionStoreSettings.password = process.env['MONGO_PWD'];
+  sessionStoreSettings.db = mongoConfig.database = process.env['MONGO_DB'];
+  sessionStoreSettings.host = mongoConfig.host = process.env['MONGO_HOST'];
+  sessionStoreSettings.port = mongoConfig.port = process.env['MONGO_PORT'];
 }
 var connectStr = 'mongodb://'+authPart+mongoConfig.host+':'+mongoConfig.port+
   '/'+mongoConfig.database;
